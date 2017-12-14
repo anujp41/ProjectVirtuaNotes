@@ -36,7 +36,7 @@ class Home extends Component {
 							style={{ backgroundColor: "#6FAF98", alignSelf: "center" }}
 							onPress={() => this.props.navigation.navigate("DrawerOpen")}
 						>
-							<Text>Lets Go!</Text>
+							<Text>Start marking your map!</Text>
 						</Button>
 					</View>
 				</Image>
