@@ -17,18 +17,7 @@ import {
 import MapView from 'react-native-maps';
 import styles from "./styles";
 import NHSpinner from '../spinner';
-import * as firebase from 'firebase';
-
-const config = {
-  apiKey: "AIzaSyA-YgQ-NJu-1QRg08kpT3soU1D8c2Lb3Us",
-  authDomain: "virtuanotes.firebaseapp.com",
-  databaseURL: "https://virtuanotes.firebaseio.com",
-  projectId: "virtuanotes",
-  storageBucket: "virtuanotes.appspot.com",
-  messagingSenderId: "806111620814"
-}
-
-firebase.initializeApp(config);
+import firebase from '../../../firebase';
 
 class Anatomy extends Component {
 
