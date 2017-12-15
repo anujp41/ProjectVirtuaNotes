@@ -38,9 +38,15 @@ class Anatomy extends Component {
       latitude: null,
       longitude: null,
       timestamp: null,
-      error: null
+      error: null,
+      markerArray: null
     }
-    this.getCoords = this.getCoords.bind(this);
+    this.writeToDb = this.writeToDb.bind(this);
+    this.getMarkers = this.getMarkers.bind(this);
+  }
+
+  componentWillMount() {
+    this.getMarkers();
   }
 
   componentDidMount() {
@@ -56,8 +62,7 @@ class Anatomy extends Component {
     )
   }
 
-  getCoords(event) {
-    console.log('this is event ', event.nativeEvent.coordinate);
+  writeToDb(event) {
     const toWrite = event.nativeEvent.coordinate;
     firebase.database().ref('location').push({
       latitude: toWrite.latitude,
@@ -65,7 +70,20 @@ class Anatomy extends Component {
     })
   }
 
+  getMarkers() {
+    firebase.database().ref('location').once('value')
+    .then(snapshot => {
+      let markerArray = [];
+      snapshot.forEach(child => {
+        markerArray.push(child.val())
+      })
+      return markerArray
+    })
+    .then(markerArray => this.setState({markerArray}))
+  }
+
   render() {
+    markerArray = this.state.markerArray;
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -96,9 +114,17 @@ class Anatomy extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
-          onPress={event => this.getCoords(event)}
+          onPress={event => this.writeToDb(event)}
         >
+        {markerArray && markerArray.map(marker => (
+          <MapView.Marker
+            key={marker.latitude}
+            coordinate={marker}
+          />
+        ))}
         </MapView>
+
+
 
         {/* <Footer>
           <FooterTab>
