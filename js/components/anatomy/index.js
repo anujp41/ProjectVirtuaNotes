@@ -76,6 +76,8 @@ class Anatomy extends Component {
 
   render() {
     const markers = this.props.markers;
+    console.log('markers length', markers.length)
+    console.log('markers *****', markers)
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -108,12 +110,12 @@ class Anatomy extends Component {
           }}
           onPress={event => this.writeToDb(event)}
         >
-        {/* {markers.length && markers.map(marker => (
+        {markers.map(marker => (
           <MapView.Marker
             key={marker.latitude}
             coordinate={marker}
           />
-        ))} */}
+        ))}
         </MapView>
 
 
@@ -136,7 +138,6 @@ class Anatomy extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('here ', state.markers)
   return {
     markers: state.markers
   }
