@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Image, View, StatusBar } from "react-native";
+import { connect } from 'react-redux';
+import { getMarkersThunk } from '../../../store';
 
 import { Container, Button, H3, Text, Header, Title, Body, Left, Right } from "native-base";
 
@@ -9,7 +11,10 @@ const launchscreenBg = require("../../../img/launchscreen-bg.png");
 const launchscreenLogo = require("../../../img/logo-kitchen-sink.png");
 
 class Home extends Component {
-	// eslint-disable-line
+
+	componentDidMount() {
+		this.props.getMarkers();
+	}
 
 	render() {
 		return (
@@ -45,4 +50,18 @@ class Home extends Component {
 	}
 }
 
-export default Home;
+// export default Home;
+
+const mapDispatchToProps = dispatch => {
+	return {
+		getMarkers: () => {
+			const action = getMarkersThunk();
+			dispatch(action);
+		}
+	}
+}
+
+const HomeContainer = connect(null, mapDispatchToProps)(Home);
+export default HomeContainer;
+
+

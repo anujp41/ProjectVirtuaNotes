@@ -20,6 +20,7 @@ import MapView from 'react-native-maps';
 import styles from "./styles";
 import NHSpinner from '../spinner';
 import firebase from '../../../firebase';
+import { connect } from 'react-redux';
 
 class Anatomy extends Component {
 
@@ -74,7 +75,7 @@ class Anatomy extends Component {
   }
 
   render() {
-    markerArray = this.state.markerArray;
+    const markers = this.props.markers;
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -107,12 +108,12 @@ class Anatomy extends Component {
           }}
           onPress={event => this.writeToDb(event)}
         >
-        {markerArray && markerArray.map(marker => (
+        {/* {markers.length && markers.map(marker => (
           <MapView.Marker
             key={marker.latitude}
             coordinate={marker}
           />
-        ))}
+        ))} */}
         </MapView>
 
 
@@ -134,4 +135,12 @@ class Anatomy extends Component {
   }
 }
 
-export default Anatomy;
+const mapStateToProps = state => {
+  console.log('here ', state.markers)
+  return {
+    markers: state.markers
+  }
+}
+
+const AnatomyContainer = connect(mapStateToProps)(Anatomy);
+export default AnatomyContainer;
