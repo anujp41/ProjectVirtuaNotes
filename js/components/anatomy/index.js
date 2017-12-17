@@ -21,6 +21,7 @@ import styles from "./styles";
 import NHSpinner from '../spinner';
 import firebase from '../../../firebase';
 import { connect } from 'react-redux';
+import { addMarkerThunk } from '../../../store';
 
 class Anatomy extends Component {
 
@@ -34,11 +35,6 @@ class Anatomy extends Component {
       markerArray: null
     }
     this.writeToDb = this.writeToDb.bind(this);
-    this.getMarkers = this.getMarkers.bind(this);
-  }
-
-  componentWillMount() {
-    this.getMarkers();
   }
 
   componentDidMount() {
@@ -55,29 +51,17 @@ class Anatomy extends Component {
   }
 
   writeToDb(event) {
-    const toWrite = event.nativeEvent.coordinate;
-    firebase.database().ref('location').push({
-      latitude: toWrite.latitude,
-      longitude: toWrite.longitude
-    })
-  }
-
-  getMarkers() {
-    firebase.database().ref('location').once('value')
-    .then(snapshot => {
-      let markerArray = [];
-      snapshot.forEach(child => {
-        markerArray.push(child.val())
-      })
-      return markerArray
-    })
-    .then(markerArray => this.setState({markerArray}))
+    const location = event.nativeEvent.coordinate;
+    console.log('to add ', location);
+    this.props.addMarker(location);
+    // firebase.database().ref('location').push({
+    //   latitude: toWrite.latitude,
+    //   longitude: toWrite.longitude
+    // })
   }
 
   render() {
     const markers = this.props.markers;
-    console.log('markers length', markers.length)
-    console.log('markers *****', markers)
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -143,5 +127,14 @@ const mapStateToProps = state => {
   }
 }
 
-const AnatomyContainer = connect(mapStateToProps)(Anatomy);
+const mapDispatchToProps = dispatch => {
+  return {
+    addMarker: marker => {
+      const action = addMarkerThunk(marker)
+      dispatch(action);
+    }
+  }
+}
+
+const AnatomyContainer = connect(mapStateToProps, mapDispatchToProps)(Anatomy);
 export default AnatomyContainer;
