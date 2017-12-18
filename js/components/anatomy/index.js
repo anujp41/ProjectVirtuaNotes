@@ -16,6 +16,7 @@ import {
   Right,
   Body
 } from "native-base";
+// import { Button } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from "./styles";
 import NHSpinner from '../spinner';
@@ -30,14 +31,22 @@ class Anatomy extends Component {
     this.state = {
       latitude: null,
       longitude: null,
-      timestamp: null,
       error: null,
       markerArray: null
     }
     this.writeToDb = this.writeToDb.bind(this);
+    this.getCurrentLocation = this.getCurrentLocation.bind(this);
   }
 
   componentDidMount() {
+    this.getCurrentLocation();
+  }
+
+  getCurrentLocation() {
+    this.setState({
+      latitude: null,
+      longitude: null
+    })
     navigator.geolocation.getCurrentPosition(
       (position) => {
         this.setState({
@@ -52,12 +61,7 @@ class Anatomy extends Component {
 
   writeToDb(event) {
     const location = event.nativeEvent.coordinate;
-    console.log('to add ', location);
     this.props.addMarker(location);
-    // firebase.database().ref('location').push({
-    //   latitude: toWrite.latitude,
-    //   longitude: toWrite.longitude
-    // })
   }
 
   render() {
@@ -82,9 +86,9 @@ class Anatomy extends Component {
         </Header>
 
         <MapView
+          showsMyLocationButton={true}
           style={{ flex: 1 }}
           showsUserLocation={true}
-          showsMyLocationButton={true}
           toolbarEnabled={true}
           initialRegion={{
             latitude: this.state.latitude,
@@ -102,15 +106,14 @@ class Anatomy extends Component {
         ))}
         </MapView>
 
-
-
-        {/* <Footer>
+        <Footer>
           <FooterTab>
-            <Button active full>
-              <Text>Footer</Text>
+            <Button active full
+              onPress={this.getCurrentLocation}>
+              <Text>Beam Me Home!</Text>
             </Button>
           </FooterTab>
-        </Footer> */}
+        </Footer>
       </Container>
     )}
     else {
