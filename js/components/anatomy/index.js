@@ -16,13 +16,14 @@ import {
   Right,
   Body
 } from "native-base";
-// import { Button } from 'react-native';
+import { View } from 'react-native';
 import MapView from 'react-native-maps';
 import styles from "./styles";
 import NHSpinner from '../spinner';
 import firebase from '../../../firebase';
 import { connect } from 'react-redux';
 import { addMarkerThunk } from '../../../store';
+import FormModal from './modal';
 
 class Anatomy extends Component {
 
@@ -32,10 +33,11 @@ class Anatomy extends Component {
       latitude: null,
       longitude: null,
       error: null,
-      markerArray: null
+      isModalVisible: false
     }
     this.writeToDb = this.writeToDb.bind(this);
     this.getCurrentLocation = this.getCurrentLocation.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
 
   componentDidMount() {
@@ -64,8 +66,16 @@ class Anatomy extends Component {
     this.props.addMarker(location);
   }
 
+  showModal() {
+    this.setState({
+      isModalVisible: !this.state.isModalVisible
+    })
+  }
+
   render() {
     const markers = this.props.markers;
+    const isModalVisible = this.state.isModalVisible;
+    console.log('array ', markers)
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -96,7 +106,7 @@ class Anatomy extends Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421
           }}
-          onPress={event => this.writeToDb(event)}
+          onPress = {this.showModal}
         >
         {markers.map(marker => (
           <MapView.Marker
@@ -114,6 +124,12 @@ class Anatomy extends Component {
             </Button>
           </FooterTab>
         </Footer>
+
+
+        <View>
+          <FormModal isModalVisible={this.state.isModalVisible} showModal={this.showModal}/>
+        </View>
+
       </Container>
     )}
     else {
