@@ -14,7 +14,7 @@ export default class FormModal extends Component {
     }
 
     _renderButton = (text) => (
-        <TouchableOpacity onPress={this.props.addMarker}>
+        <TouchableOpacity onPress={this.props.addToDb}>
           <View style={styles.button}>
             <Text>{text}</Text>
           </View>
@@ -41,7 +41,6 @@ export default class FormModal extends Component {
 
     render() {
         const isModalVisible = this.props.isModalVisible
-        console.log('modal props ', this.props)
         return (
             <View>
             <TouchableWithoutFeedback onPress={this.props.showModal}>

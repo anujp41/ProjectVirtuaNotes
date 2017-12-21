@@ -32,12 +32,14 @@ class Anatomy extends Component {
     this.state = {
       latitude: null,
       longitude: null,
+      remainder: null,
       error: null,
       isModalVisible: false
     }
-    this.writeToDb = this.writeToDb.bind(this);
+    this.addToDb = this.addToDb.bind(this);
     this.getCurrentLocation = this.getCurrentLocation.bind(this);
     this.showModal = this.showModal.bind(this);
+    this.updateRemainder = this.updateRemainder.bind(this);
   }
 
   componentDidMount() {
@@ -61,21 +63,35 @@ class Anatomy extends Component {
     )
   }
 
-  writeToDb(event) {
-    const location = event.nativeEvent.coordinate;
-    this.props.addMarker(location);
-  }
-
-  showModal() {
+  addToDb() {
+    const longitude = this.state.longitude;
+    const latitude = this.state.latitude;
+    const remainder = this.state.remainder;
+    const addingToDb = {longitude, latitude, remainder};
+    this.props.addMarker(addingToDb);
     this.setState({
       isModalVisible: !this.state.isModalVisible
+    })
+  }
+
+  showModal(event) {
+    const location = event.nativeEvent.coordinate;
+    this.setState({
+      isModalVisible: !this.state.isModalVisible,
+      latitude: location.latitude,
+      longitude: location.longitude
+    });
+  }
+
+  updateRemainder(remainder) {
+    this.setState({
+      remainder
     })
   }
 
   render() {
     const markers = this.props.markers;
     const isModalVisible = this.state.isModalVisible;
-    console.log('array ', markers)
     if (this.state.latitude) {
     return (
       <Container style={styles.container}>
@@ -127,7 +143,7 @@ class Anatomy extends Component {
 
 
         <View>
-          <FormModal isModalVisible={this.state.isModalVisible} showModal={this.showModal}/>
+          <FormModal isModalVisible={this.state.isModalVisible} showModal={this.showModal} updateRemainder={this.updateRemainder} addToDb={this.addToDb}/>
         </View>
 
       </Container>
@@ -149,7 +165,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     addMarker: marker => {
-      const action = addMarkerThunk(marker)
+      const action = addMarkerThunk(marker);
       dispatch(action);
     }
   }

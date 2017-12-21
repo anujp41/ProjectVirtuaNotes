@@ -37,7 +37,8 @@ export function addMarkerThunk(marker) {
         dispatch(addMarker(marker));
         firebase.database().ref('location').push({
             latitude: marker.latitude,
-            longitude: marker.longitude
+            longitude: marker.longitude,
+            remainder: marker.remainder
           })
     }
 }
