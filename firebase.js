@@ -1,12 +1,23 @@
 import * as firebase from 'firebase';
 
+import secrets from './secrets';
+
+const googleSecrets = secrets.google;
+
+const apiKey =  secrets.google.apiKey;
+const authDomain = secrets.google.authDomain;
+const databaseURL = secrets.google.databaseURL;
+const projectId = secrets.google.projectId;
+const storageBucket = secrets.google.storageBucket;
+const messagingSenderId = secrets.google.messagingSenderId;
+
 const config = {
-  apiKey: "AIzaSyA-YgQ-NJu-1QRg08kpT3soU1D8c2Lb3Us",
-  authDomain: "virtuanotes.firebaseapp.com",
-  databaseURL: "https://virtuanotes.firebaseio.com",
-  projectId: "virtuanotes",
-  storageBucket: "virtuanotes.appspot.com",
-  messagingSenderId: "806111620814"
+  apiKey,
+  authDomain,
+  databaseURL,
+  projectId,
+  storageBucket,
+  messagingSenderId
 }
 
 firebase.initializeApp(config);
