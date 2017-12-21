@@ -1,6 +1,6 @@
 import * as firebase from 'firebase';
 
-import secrets from './secrets';
+import secrets from './mysecrets';
 
 const googleSecrets = secrets.google;
 
