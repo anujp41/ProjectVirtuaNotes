@@ -42,7 +42,7 @@ buck-out/
 *.keystore
 
 #SECRETS
-secrets.js
+secrets.*
 
 # fastlane
 #
