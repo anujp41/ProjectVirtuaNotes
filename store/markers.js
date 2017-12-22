@@ -23,7 +23,14 @@ export function getMarkersThunk() {
         .then(snapshot => {
             let markerArray = [];
             snapshot.forEach(marker => {
-                markerArray.push(marker.val());
+                const markerDetail = marker.val();
+                const markerObject = {
+                    key: marker.key,
+                    latitude: markerDetail.latitude,
+                    longitude: markerDetail.longitude,
+                    remainder: markerDetail.remainder
+                }
+                markerArray.push(markerObject);
             })
             return markerArray;
         })

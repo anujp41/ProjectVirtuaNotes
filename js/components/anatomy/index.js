@@ -67,7 +67,11 @@ class Anatomy extends Component {
     const longitude = this.state.longitude;
     const latitude = this.state.latitude;
     const remainder = this.state.remainder;
-    const addingToDb = {longitude, latitude, remainder};
+    const addingToDb = {
+      longitude,
+      latitude,
+      remainder
+    };
     this.props.addMarker(addingToDb);
     this.setState({
       isModalVisible: !this.state.isModalVisible
@@ -76,11 +80,17 @@ class Anatomy extends Component {
 
   showModal(event) {
     const location = event.nativeEvent.coordinate;
-    this.setState({
-      isModalVisible: !this.state.isModalVisible,
-      latitude: location.latitude,
-      longitude: location.longitude
-    });
+    location !== undefined 
+    ?
+      this.setState({
+        isModalVisible: !this.state.isModalVisible,
+        latitude: location.latitude || null,
+        longitude: location.longitude || null
+      })
+    :
+      this.setState({
+        isModalVisible: !this.state.isModalVisible
+      });
   }
 
   updateRemainder(remainder) {
@@ -127,6 +137,7 @@ class Anatomy extends Component {
         {markers.map(marker => (
           <MapView.Marker
             key={marker.latitude}
+            title={marker.remainder}
             coordinate={marker}
           />
         ))}

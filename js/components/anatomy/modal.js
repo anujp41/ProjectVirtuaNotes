@@ -1,3 +1,5 @@
+"use strict";
+
 import React, { Component } from "react";
 import { Text, TextInput, View, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import { Label, Item, Input } from 'native-base';
