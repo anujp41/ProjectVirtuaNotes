@@ -50,6 +50,13 @@ export function addMarkerThunk(marker) {
     }
 }
 
+export function removeMarkerThunk(key) {
+    return function(dispatch) {
+        console.log('the key is ', key)
+        // firebase.database().ref('location').child(key).remove();
+    }
+}
+
 //REDUCERS
 export default (state = [], action) => {
     switch (action.type) {

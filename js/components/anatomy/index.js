@@ -42,10 +42,6 @@ class Anatomy extends Component {
     this.updateRemainder = this.updateRemainder.bind(this);
   }
 
-  componentDidMount() {
-    this.getCurrentLocation();
-  }
-
   getCurrentLocation() {
     this.setState({
       latitude: null,
@@ -97,6 +93,10 @@ class Anatomy extends Component {
     this.setState({
       remainder
     })
+  }
+
+  componentDidMount() {
+    this.getCurrentLocation();
   }
 
   render() {

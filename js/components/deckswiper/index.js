@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { Image, View, TouchableOpacity } from "react-native";
+import { Image, View, TouchableOpacity, Button, TouchableHighlight } from "react-native";
 import {
 	Container,
 	Header,
 	Title,
-	Button,
+	Button as BaseButton,
 	IconNB,
 	DeckSwiper,
 	Card,
@@ -19,37 +19,9 @@ import {
 } from "native-base";
 import { connect } from 'react-redux';
 import styles from "./styles";
-// import default from "../spinner/styles";
-
-const cardOne = require("../../../img/swiper-1.png");
-const cardTwo = require("../../../img/swiper-2.png");
-const cardThree = require("../../../img/swiper-3.png");
-const cardFour = require("../../../img/swiper-4.png");
+import { removeMarkerThunk } from '../../../store';
 
 const cardImage = require("../../../img/mcqueen.jpg");
-
-const cards = [
-	{
-		text: "Card One",
-		name: "One",
-		image: cardOne,
-	},
-	{
-		text: "Card Two",
-		name: "Two",
-		image: cardTwo,
-	},
-	{
-		text: "Card Three",
-		name: "Three",
-		image: cardThree,
-	},
-	{
-		text: "Card Four",
-		name: "Four",
-		image: cardFour,
-	},
-];
 
 class SimpleDeck extends Component {
 	// eslint-disable-line
@@ -59,13 +31,16 @@ class SimpleDeck extends Component {
 		this._renderButton = this._renderButton.bind(this);
 	}
 
-	_renderButton = (text) => (
-        <TouchableOpacity onPress={() => console.log('i am pressed')}>
-          <View style={styles.button}>
-            <Text>{text}</Text>
-          </View>
-        </TouchableOpacity>
-      );
+	_renderButton = marker => (
+		<View style={styles.container}>
+			<TouchableOpacity onPress={console.log('pressed')}>
+			<View style={styles.button}>
+				<Text style={styles.buttonText}>Remove remainder</Text>
+			</View>
+			</TouchableOpacity>
+		</View>
+	  );
+	  
 
 	render() {
 		const markers = this.props.markers;
@@ -73,9 +48,9 @@ class SimpleDeck extends Component {
 			<Container style={styles.container}>
 				<Header>
 					<Left>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
+						<BaseButton transparent onPress={() => this.props.navigation.goBack()}>
 							<Icon name="arrow-back" />
-						</Button>
+						</BaseButton>
 					</Left>
 					<Body>
 						<Title>Simple Deck Swiper</Title>
@@ -123,9 +98,7 @@ class SimpleDeck extends Component {
 										Longitude: {marker.longitude}
 									</Text>
 								</CardItem>
-
-								{this._renderButton('Remove card')}
-
+									{this._renderButton(marker)}
 							</Card>}
 					/>
 				</View>
