@@ -3,6 +3,7 @@ import firebase from '../firebase';
 //ACTION TYPE
 const GET_MARKERS = 'GET_MARKERS';
 const ADD_MARKER = 'ADD_MARKER';
+const REMOVE_MARKER = 'REMOVE_MARKER';
 
 //ACTION CREATORS
 function getMarkers(markers) {
@@ -12,6 +13,11 @@ function getMarkers(markers) {
 
 function addMarker(marker) {
     const action = { type: ADD_MARKER, marker };
+    return action;
+}
+
+function removeMarker(key) {
+    const action = {type: REMOVE_MARKER, key};
     return action;
 }
 
@@ -52,8 +58,8 @@ export function addMarkerThunk(marker) {
 
 export function removeMarkerThunk(key) {
     return function(dispatch) {
-        console.log('the key is ', key)
-        // firebase.database().ref('location').child(key).remove();
+        firebase.database().ref('location').child(key).remove()
+        dispatch(removeMarker(key));
     }
 }
 
@@ -65,6 +71,9 @@ export default (state = [], action) => {
 
         case ADD_MARKER:
             return [...state, action.marker]
+
+        case REMOVE_MARKER:
+            return state.filter(marker => marker.key !== action.key);
 
         default:
             return [];

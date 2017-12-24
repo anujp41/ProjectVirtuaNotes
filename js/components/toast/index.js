@@ -1,22 +1,17 @@
 import React, { Component } from "react";
-
 import {
   Container,
   Header,
   Title,
   Content,
   Text,
-  H3,
   Button,
   Icon,
-  Footer,
-  FooterTab,
   Left,
   Right,
   Body,
   Toast
 } from "native-base";
-
 import styles from "./styles";
 
 class ToastNB extends Component {
@@ -26,7 +21,6 @@ class ToastNB extends Component {
       showToast: false
     };
   }
-
   render() {
     return (
       <Container style={styles.container}>

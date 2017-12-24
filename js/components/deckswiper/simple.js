@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Image, View } from "react-native";
-
+import { Image, View, TouchableOpacity, Button, TouchableHighlight } from "react-native";
 import {
 	Container,
 	Header,
 	Title,
-	Button,
+	Button as BaseButton,
 	IconNB,
 	DeckSwiper,
 	Card,
@@ -16,75 +15,41 @@ import {
 	Left,
 	Right,
 	Body,
-	Content,
+	Content
 } from "native-base";
-
+import { connect } from 'react-redux';
 import styles from "./styles";
+import ToastNB from './toast';
+import { removeMarkerThunk } from '../../../store';
 
-const cardOne = require("../../../img/swiper-1.png");
-const cardTwo = require("../../../img/swiper-2.png");
-const cardThree = require("../../../img/swiper-3.png");
-const cardFour = require("../../../img/swiper-4.png");
-
-const cards = [
-	{
-		text: "Card One",
-		name: "One",
-		image: cardOne,
-	},
-	{
-		text: "Card Two",
-		name: "Two",
-		image: cardTwo,
-	},
-	{
-		text: "Card Three",
-		name: "Three",
-		image: cardThree,
-	},
-	{
-		text: "Card Four",
-		name: "Four",
-		image: cardFour,
-	},
-];
+const cardImage = require("../../../img/mcqueen.jpg");
 
 class SimpleDeck extends Component {
 	// eslint-disable-line
 
+	constructor(props) {
+		super(props);
+	}  
+
 	render() {
+		const markers = this.props.markers;
+		console.log('markers from simple ', markers);
 		return (
 			<Container style={styles.container}>
-				<Header>
-					<Left>
-						<Button transparent onPress={() => this.props.navigation.goBack()}>
-							<Icon name="arrow-back" />
-						</Button>
-					</Left>
-					<Body>
-						<Title>Simple Deck Swiper</Title>
-					</Body>
-					<Right />
-				</Header>
-
 				<View style={{ flex: 1, padding: 12 }}>
 					<DeckSwiper
-						dataSource={cards}
-						looping={false}
-						renderEmpty={() =>
-							<View>
-								<Text>Over</Text>
-							</View>}
+						dataSource={markers}
+						looping={true}
 						renderItem={item =>
 							<Card style={{ elevation: 3 }}>
 								<CardItem>
 									<Left>
-										<Thumbnail source={item.image} />
+										<Thumbnail source={cardImage} />
 										<Body>
 											<Text>
-												{item.text}
+												{item.remainder}
 											</Text>
-											<Text note>NativeBase</Text>
+											<Text note>To add this!</Text>
 										</Body>
 									</Left>
 								</CardItem>
@@ -96,14 +61,19 @@ class SimpleDeck extends Component {
 											flex: 1,
 											height: 300,
 										}}
-										source={item.image}
+										source={cardImage}
 									/>
 								</CardItem>
 								<CardItem>
 									<IconNB name={"ios-heart"} style={{ color: "#ED4A6A" }} />
 									<Text>
-										{item.name}
+										Latitude: {item.latitude}
+										{"\n"}
+										Longitude: {item.longitude}
 									</Text>
+								</CardItem>
+								<CardItem>
+									< ToastNB marker={item.key} />
 								</CardItem>
 							</Card>}
 					/>
@@ -113,4 +83,11 @@ class SimpleDeck extends Component {
 	}
 }
 
-export default SimpleDeck;
+const mapStateToProps = state => {
+	return {
+	  markers: state.markers
+	}
+  }
+
+const SimpleDeckContainer = connect(mapStateToProps, null)(SimpleDeck);
+export default SimpleDeckContainer; 
