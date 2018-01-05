@@ -22,17 +22,19 @@ class NHSearchbar extends Component {
         <Header searchBar rounded>
           <Item>
             <Icon active name="search" />
-            <Input placeholder="Search" />
+            <Input name="place" placeholder="Search" onChangeText={(text) => console.log(text)}/>
             <Icon active name="people" />
           </Item>
-          <Button transparent>
+          {/* <Button 
+            transparent
+            onPress = {(event) => console.log('event is ', event.target)}
+          >
             <Text>Search</Text>
-          </Button>
-        </Header>
+          </Button> */}
+          </Header>
 
         <Content padder>
           <Button
-            block
             onPress={() => this.props.navigation.navigate("DrawerOpen")}
           >
             <Text>Back</Text>
