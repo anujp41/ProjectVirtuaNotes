@@ -47,18 +47,16 @@ export function getMarkersThunk() {
 
 export function addMarkerThunk(marker) {
     return function(dispatch) {
+        const key = firebase.database().ref('location').push().key;
+        firebase.database().ref('location').child(key).update(marker);
+        marker.key = key;
         dispatch(addMarker(marker));
-        firebase.database().ref('location').push({
-            latitude: marker.latitude,
-            longitude: marker.longitude,
-            remainder: marker.remainder
-          })
     }
 }
 
 export function removeMarkerThunk(key) {
     return function(dispatch) {
-        firebase.database().ref('location').child(key).remove()
+        firebase.database().ref('location').child(key).remove();
         dispatch(removeMarker(key));
     }
 }

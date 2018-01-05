@@ -17,7 +17,7 @@ export default {
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   button: {
-    backgroundColor: 'lime',
+    backgroundColor: 'lightblue',
     padding: 12,
     margin: 16,
     justifyContent: 'center',

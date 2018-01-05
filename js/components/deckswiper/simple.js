@@ -33,7 +33,6 @@ class SimpleDeck extends Component {
 
 	render() {
 		const markers = this.props.markers;
-		console.log('markers from simple ', markers);
 		return (
 			<Container style={styles.container}>
 				<View style={{ flex: 1, padding: 12 }}>
